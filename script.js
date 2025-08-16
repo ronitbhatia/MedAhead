@@ -1,5 +1,5 @@
-// MedAhead Demo - JavaScript Functionality
-// Hardcoded data for hackathon demo
+// Conference Buddy - JavaScript Functionality
+// AI-powered conference networking assistant
 
 let currentStep = 0;
 let selectedConference = null;
@@ -7,7 +7,7 @@ let contacts = [];
 let meetings = [];
 let analysisComplete = false;
 
-// Current healthcare conferences data - Updated August 2025
+// Current conferences data - Updated December 2024
 const conferences = [
     {
         id: "himss-2026",
@@ -75,9 +75,9 @@ const conferences = [
 const sampleContacts = [
     {
         id: "1",
-        name: "Dr. Michael Chen",
-        email: "mchen@stmaryshospital.org",
-        company: "St. Mary's Health System",
+        name: "Dr. Anika Mehrotra",
+        email: "anika.mehrotra@mountsinai.org",
+        company: "Mount Sinai Health System",
         title: "Chief Medical Information Officer",
         industry: "Healthcare Technology",
         score: 95,
@@ -86,10 +86,10 @@ const sampleContacts = [
     },
     {
         id: "2",
-        name: "Sarah Williams",
-        email: "swilliams@innovhealth.com",
-        company: "InnovHealth Solutions",
-        title: "VP of Digital Transformation",
+        name: "Mateo Alvarez",
+        email: "mateo.alvarez@epic.com",
+        company: "Epic Systems",
+        title: "VP, Digital Transformation",
         industry: "Healthcare Technology",
         score: 92,
         priority: "high",
@@ -97,9 +97,9 @@ const sampleContacts = [
     },
     {
         id: "3",
-        name: "Dr. James Rodriguez",
-        email: "jrodriguez@citymedical.edu",
-        company: "City Medical Center",
+        name: "Dr. Priya Narayanan",
+        email: "priya.narayanan@partners.org",
+        company: "Mass General Brigham",
         title: "Director of Clinical Innovation",
         industry: "Healthcare",
         score: 88,
@@ -108,31 +108,31 @@ const sampleContacts = [
     },
     {
         id: "4",
-        name: "Lisa Thompson",
-        email: "lthompson@healthtech.ai",
-        company: "HealthTech AI",
-        title: "CEO",
-        industry: "Digital Health",
+        name: "Amina El-Sayed",
+        email: "amina.elsayed@unitedhealthgroup.com",
+        company: "UnitedHealth Group",
+        title: "SVP, Digital Health",
+        industry: "Payer / Digital Health",
         score: 94,
         priority: "high",
-        notes: "AI healthcare startup CEO. Great for discussing emerging AI applications in healthcare."
+        notes: "Driving digital platforms at scale across payer operations."
     },
     {
         id: "5",
-        name: "Robert Kim",
-        email: "rkim@medicore.com",
-        company: "MediCore Systems",
-        title: "CTO",
+        name: "Hiroshi Tanaka",
+        email: "hiroshi.tanaka@google.com",
+        company: "Google Health",
+        title: "Director of Engineering, Health AI",
         industry: "Healthcare Technology",
         score: 89,
         priority: "high",
-        notes: "Technology leader at established health IT company. Perfect for technical discussions."
+        notes: "Technology leader in scalable clinical ML systems and infra."
     },
     {
         id: "6",
-        name: "Dr. Amanda Foster",
-        email: "afoster@regionalhospital.org",
-        company: "Regional Hospital Network",
+        name: "Ethan McAllister",
+        email: "ethan.mcallister@kaiserpermanente.org",
+        company: "Kaiser Permanente",
         title: "Chief Innovation Officer",
         industry: "Healthcare",
         score: 86,
@@ -141,21 +141,21 @@ const sampleContacts = [
     },
     {
         id: "7",
-        name: "David Park",
-        email: "dpark@healthventures.com",
-        company: "Health Ventures Capital",
-        title: "Principal",
-        industry: "Healthcare Investment",
+        name: "Sofia Petrov",
+        email: "sofia.petrov@a16z.com",
+        company: "Andreessen Horowitz Bio + Health",
+        title: "Partner",
+        industry: "Venture Capital",
         score: 83,
         priority: "medium",
         notes: "Healthcare investor focused on AI and digital health startups."
     },
     {
         id: "8",
-        name: "Dr. Jennifer Liu",
-        email: "jliu@medschool.edu",
-        company: "University Medical School",
-        title: "Director of Health Informatics",
+        name: "Dr. Xiomara Castillo",
+        email: "xi.castillo@stanford.edu",
+        company: "Stanford Medicine",
+        title: "Director, Biomedical Informatics",
         industry: "Healthcare Education",
         score: 81,
         priority: "medium",
@@ -168,51 +168,51 @@ const sampleMeetings = [
     {
         id: "1",
         contactId: "1",
-        contactName: "Dr. Michael Chen",
-        contactCompany: "St. Mary's Health System",
+        contactName: "Dr. Anika Mehrotra",
+        contactCompany: "Mount Sinai Health System",
         suggestedTime: "Day 1, 10:00 AM",
         reason: "Perfect alignment on AI in clinical workflows",
-        personalizedMessage: "Hi Dr. Chen, I noticed your innovative work on AI implementation at St. Mary's. I'd love to discuss our clinical AI solutions over coffee at HIMSS. Are you available Monday morning?",
+        personalizedMessage: "Hi Dr. Mehrotra, I noticed your innovative work on AI implementation at Mount Sinai. I'd love to discuss our clinical AI solutions over coffee at HIMSS. Are you available Monday morning?",
         priority: "high"
     },
     {
         id: "2",
         contactId: "4",
-        contactName: "Lisa Thompson",
-        contactCompany: "HealthTech AI",
+        contactName: "Amina El-Sayed",
+        contactCompany: "UnitedHealth Group",
         suggestedTime: "Day 1, 2:00 PM",
         reason: "CEO-level strategic discussion on AI trends",
-        personalizedMessage: "Hi Lisa, As fellow leaders in healthcare AI, I'd value your insights on the future of AI in clinical settings. Available for lunch on Monday?",
+        personalizedMessage: "Hi Amina, driving digital platforms at scale takes real rigor. I'd value your perspective on payer-led digital health initiatives. Lunch on Monday?",
         priority: "high"
     },
     {
         id: "3",
         contactId: "2",
-        contactName: "Sarah Williams",
-        contactCompany: "InnovHealth Solutions",
+        contactName: "Mateo Alvarez",
+        contactCompany: "Epic Systems",
         suggestedTime: "Day 2, 11:00 AM",
         reason: "Digital transformation partnership opportunities",
-        personalizedMessage: "Hi Sarah, I'm impressed by InnovHealth's digital transformation approach. Let's discuss potential collaboration opportunities at HIMSS.",
+        personalizedMessage: "Hi Mateo, I'm impressed by Epic's approach to digital transformation. Let's discuss potential collaboration opportunities at HIMSS.",
         priority: "high"
     },
     {
         id: "4",
         contactId: "5",
-        contactName: "Robert Kim",
-        contactCompany: "MediCore Systems",
+        contactName: "Hiroshi Tanaka",
+        contactCompany: "Google Health",
         suggestedTime: "Day 2, 3:00 PM",
         reason: "Technical deep-dive on integration solutions",
-        personalizedMessage: "Hi Robert, I'd love to explore technical synergies between our platforms. Available for a technical discussion Tuesday afternoon?",
+        personalizedMessage: "Hi Hiroshi, I'd love to explore technical synergies between our platforms. Available for a technical discussion Tuesday afternoon?",
         priority: "medium"
     },
     {
         id: "5",
         contactId: "3",
-        contactName: "Dr. James Rodriguez",
-        contactCompany: "City Medical Center",
+        contactName: "Dr. Priya Narayanan",
+        contactCompany: "Mass General Brigham",
         suggestedTime: "Day 3, 9:00 AM",
         reason: "Clinical innovation and patient care solutions",
-        personalizedMessage: "Hi Dr. Rodriguez, Your work on clinical innovation aligns perfectly with our patient care solutions. Coffee Wednesday morning?",
+        personalizedMessage: "Hi Dr. Narayanan, your work on clinical innovation aligns with our patient care solutions. Coffee Wednesday morning?",
         priority: "medium"
     }
 ];
@@ -225,9 +225,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeApp() {
     populateConferences();
     updateProgress();
-    
-    // Setup drag and drop for file upload
-    setupDragAndDrop();
 }
 
 function populateConferences() {
@@ -238,7 +235,7 @@ function populateConferences() {
         const conferenceCard = document.createElement('div');
         conferenceCard.className = 'conference-card';
         conferenceCard.onclick = () => selectConference(conference);
-        
+
         conferenceCard.innerHTML = `
             <div class="relevance-badge">${conference.relevanceScore}% Match</div>
             <h3>${conference.name}</h3>
@@ -251,7 +248,7 @@ function populateConferences() {
             <p>${conference.description}</p>
             <div class="conference-stats">
                 <div class="stat">
-                    <i class="fas fa-users"></i> ${conference.attendees.toLocaleString()} attendees
+                    <i class="fas fa-users"></i> ${conference.attendees.toString()} attendees
                 </div>
                 <div class="stat">
                     <i class="fas fa-tag"></i> ${conference.focus}
@@ -288,17 +285,10 @@ function nextStep() {
             return;
         }
     } else if (currentStep === 2) {
-        // Start analysis
-        if (contacts.length === 0) {
-            alert('Please upload contacts or use demo data to continue.');
-            return;
-        }
-        startAnalysis();
-    } else if (currentStep === 3) {
         // Show meetings
         if (!analysisComplete) return;
         populateMeetings();
-    } else if (currentStep === 4) {
+    } else if (currentStep === 3) {
         // Show dashboard
         populateDashboard();
     }
@@ -320,7 +310,6 @@ function nextStep() {
 function hideAllSteps() {
     document.getElementById('profileStep').classList.add('hidden');
     document.getElementById('conferenceStep').classList.add('hidden');
-    document.getElementById('uploadStep').classList.add('hidden');
     document.getElementById('analysisStep').classList.add('hidden');
     document.getElementById('meetingStep').classList.add('hidden');
     document.getElementById('dashboardStep').classList.add('hidden');
@@ -330,7 +319,6 @@ function showCurrentStep() {
     const stepElements = [
         'profileStep',
         'conferenceStep', 
-        'uploadStep',
         'analysisStep',
         'meetingStep',
         'dashboardStep'
@@ -342,12 +330,12 @@ function showCurrentStep() {
 }
 
 function updateProgress() {
-    const progress = ((currentStep) / 5) * 100;
+    const progress = ((currentStep) / 4) * 100;
     document.getElementById('progressFill').style.width = `${progress}%`;
 }
 
 function updateStepIndicators() {
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i <= 4; i++) {
         const stepElement = document.getElementById(`step${i}`);
         if (i < currentStep) {
             stepElement.className = 'step completed';
@@ -373,76 +361,69 @@ function validateProfile() {
     return true;
 }
 
-function setupDragAndDrop() {
-    const uploadArea = document.getElementById('uploadArea');
+function startScrapingAndAnalysis() {
+    // Hide the scraping introduction and show the analysis content
+    document.querySelector('#analysisStep .card:first-of-type').style.display = 'none';
+    document.getElementById('analysisContent').classList.remove('hidden');
     
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('dragover');
-    });
+    const analysisContent = document.getElementById('analysisContent');
     
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('dragover');
-    });
-    
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('dragover');
-        
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            handleFileUpload({ target: { files: files } });
-        }
-    });
-}
-
-function handleFileUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    if (!file.name.endsWith('.csv')) {
-        alert('Please upload a CSV file.');
-        return;
-    }
-    
-    // Simulate file processing
-    const uploadStatus = document.getElementById('uploadStatus');
-    uploadStatus.innerHTML = `
-        <div class="success-message">
-            <i class="fas fa-check-circle"></i>
-            Successfully uploaded "${file.name}" - Processing ${Math.floor(Math.random() * 50) + 20} contacts
+    // Show scraping phase
+    analysisContent.innerHTML = `
+        <div style="text-align: center; padding: 40px;">
+            <div class="loading-spinner"></div>
+            <h3 style="color: var(--text); margin-bottom: 16px;">Scraping conference attendees</h3>
+            <p id=\"scrapingStatus\">Connecting to ${selectedConference.name} attendee directory...</p>
+            <div style=\"background: #f8f9fa; border-radius: 8px; padding: 16px; margin-top: 20px; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto;\">
+                <div id=\"scrapingProgress\">
+                    <div>Connected to conference website</div>
+                </div>
+            </div>
         </div>
     `;
-    uploadStatus.classList.remove('hidden');
     
-    // Use sample data
-    contacts = [...sampleContacts];
-    document.getElementById('uploadNextBtn').disabled = false;
-}
-
-function simulateUpload() {
-    const uploadStatus = document.getElementById('uploadStatus');
-    uploadStatus.innerHTML = `
-        <div class="success-message">
-            <i class="fas fa-check-circle"></i>
-            Demo data loaded successfully - ${sampleContacts.length} contacts ready for analysis
-        </div>
-    `;
-    uploadStatus.classList.remove('hidden');
+    // Simulate scraping steps
+    setTimeout(() => {
+        document.getElementById('scrapingStatus').textContent = 'Analyzing speaker directory...';
+        document.getElementById('scrapingProgress').innerHTML += '<div>Found 150+ speakers and panelists</div>';
+    }, 2000);
     
-    contacts = [...sampleContacts];
-    document.getElementById('uploadNextBtn').disabled = false;
+    setTimeout(() => {
+        document.getElementById('scrapingStatus').textContent = 'Scanning sponsor and exhibitor lists...';
+        document.getElementById('scrapingProgress').innerHTML += '<div>Identified 300+ sponsors and exhibitors</div>';
+    }, 4000);
+    
+    setTimeout(() => {
+        document.getElementById('scrapingStatus').textContent = 'Analyzing social media mentions...';
+        document.getElementById('scrapingProgress').innerHTML += '<div>Collected 500+ attendee profiles from LinkedIn</div>';
+    }, 6000);
+    
+    setTimeout(() => {
+        document.getElementById('scrapingStatus').textContent = 'Running AI analysis on collected data...';
+        document.getElementById('scrapingProgress').innerHTML += '<div>Total contacts found: 850+ attendees</div>';
+        startAnalysis();
+    }, 8000);
 }
 
 function startAnalysis() {
+    // Set contacts from sample data (simulating scraped data)
+    contacts = [...sampleContacts];
+    
     const analysisContent = document.getElementById('analysisContent');
     
     // Show loading state
     analysisContent.innerHTML = `
         <div style="text-align: center; padding: 40px;">
             <div class="loading-spinner"></div>
-            <p>Analyzing ${contacts.length} contacts with AI...</p>
-            <p style="color: #666; margin-top: 10px;">Scoring relevance, identifying key connections, and generating insights.</p>
+            <h3 style="color: var(--text); margin-bottom: 16px;">AI analysis in progress</h3>
+            <p>Analyzing 850+ scraped contacts with AI algorithms...</p>
+            <p style=\"color: #6b7280; margin-top: 10px;\">Scoring relevance, identifying key connections, and generating personalized insights.</p>
+            <div style=\"background: #f8f9fa; border-radius: 8px; padding: 16px; margin-top: 20px; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto;\">
+                <div>Analyzing professional backgrounds...</div>
+                <div>Calculating networking relevance scores...</div>
+                <div>Identifying key decision makers...</div>
+                <div>Generating meeting recommendations...</div>
+            </div>
         </div>
     `;
     
@@ -455,7 +436,7 @@ function startAnalysis() {
         setTimeout(() => {
             nextStep();
         }, 3000);
-    }, 3000);
+    }, 5000);
 }
 
 function showAnalysisResults() {
@@ -517,7 +498,7 @@ function showAnalysisResults() {
             </tbody>
         </table>
         
-        <p style="text-align: center; margin-top: 20px; color: #667eea; font-weight: 600;">
+        <p style="text-align: center; margin-top: 20px; color: #6b7280; font-weight: 500;">
             Generating personalized meeting recommendations...
         </p>
     `;
@@ -540,6 +521,17 @@ function populateMeetings() {
             <div class="meeting-message">
                 <strong>Suggested message:</strong><br>
                 "${meeting.personalizedMessage}"
+            </div>
+            <div class="action-bar">
+                <button class="action-btn primary" onclick="sendLinkedInDM('${meeting.contactName}', '${meeting.contactCompany}')">
+                    <i class="fab fa-linkedin"></i> LinkedIn DM
+                </button>
+                <button class="action-btn" onclick="sendEmail('${meeting.contactName}', '${meeting.contactCompany}')">
+                    <i class="fas fa-envelope"></i> Email
+                </button>
+                <button class="action-btn success" onclick="scheduleMeeting('${meeting.contactName}', '${meeting.suggestedTime}')">
+                    <i class="fas fa-calendar-check"></i> Schedule
+                </button>
             </div>
         </div>
     `).join('');
@@ -581,9 +573,36 @@ function populateDashboard() {
             <div class="meeting-time">
                 <i class="fas fa-clock"></i> ${meeting.suggestedTime}
             </div>
-            <div>${meeting.reason}</div>
+            <div style="margin-bottom: 8px;">${meeting.reason}</div>
+            <div class="action-bar">
+                <button class="action-btn primary" onclick="sendLinkedInDM('${meeting.contactName}', '${meeting.contactCompany}')">
+                    <i class="fab fa-linkedin"></i> LinkedIn DM
+                </button>
+                <button class="action-btn" onclick="sendEmail('${meeting.contactName}', '${meeting.contactCompany}')">
+                    <i class="fas fa-envelope"></i> Email
+                </button>
+                <button class="action-btn success" onclick="scheduleMeeting('${meeting.contactName}', '${meeting.suggestedTime}')">
+                    <i class="fas fa-calendar-check"></i> Schedule
+                </button>
+            </div>
         </div>
     `).join('');
+}
+
+function sendLinkedInDM(name, company) {
+    const message = `Hi ${name}, I’m attending the same conference and would value a quick chat about potential synergies with ${company}. Are you available for a 15-minute coffee during a break?`;
+    alert(`LinkedIn DM prepared:\n\n${message}\n\nOpening LinkedIn composer...`);
+}
+
+function sendEmail(name, company) {
+    const subject = encodeURIComponent(`Quick meeting at the conference?`);
+    const body = encodeURIComponent(`Hi ${name},\n\nI’d love to connect briefly during the conference to discuss potential collaboration with ${company}. Would a 15-minute coffee chat work?\n\nBest regards,\n${document.getElementById('userName').value}`);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+function scheduleMeeting(name, time) {
+    const details = `Meeting with ${name} at ${time}`;
+    alert(`Scheduling assistant\n\n${details}\n\nSuggested slots:\n- Day 1: 10:00–10:15 (Coffee Bar A)\n- Day 1: 14:00–14:15 (Hallway near Stage 2)\n- Day 2: 11:00–11:15 (Sponsor Lounge)\n\nUse your calendar tool to send an invite.`);
 }
 
 function showTab(tabName) {
@@ -616,9 +635,7 @@ function resetDemo() {
     document.getElementById('userIndustry').value = 'Healthcare Technology';
     document.getElementById('userGoals').value = 'Looking to connect with healthcare technology leaders, explore AI solutions for patient care, and discuss digital transformation initiatives.';
     
-    // Reset upload
-    document.getElementById('uploadStatus').classList.add('hidden');
-    document.getElementById('uploadNextBtn').disabled = true;
+    // Reset buttons
     document.getElementById('selectConferenceBtn').disabled = true;
     
     // Clear selections
@@ -652,7 +669,7 @@ function exportResults() {
     
     const link = document.createElement('a');
     link.href = URL.createObjectURL(dataBlob);
-    link.download = 'medahead-results.json';
+    link.download = 'conference-buddy-results.json';
     link.click();
     
     // Show success message
@@ -663,10 +680,10 @@ function exportResults() {
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-populate some demo data
     setTimeout(() => {
-        console.log('MedAhead Demo Ready! 🚀');
+        console.log('Conference Buddy Ready! 🚀');
         console.log('Features:');
         console.log('- AI-powered conference recommendations');
-        console.log('- Intelligent contact analysis');
+        console.log('- Intelligent attendee scraping & analysis');
         console.log('- Personalized meeting suggestions');
         console.log('- Comprehensive networking dashboard');
     }, 1000);
