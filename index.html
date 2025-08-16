@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedAhead - Healthcare Conference Targeting Platform</title>
+    <title>Conference Buddy - AI-Powered Conference Networking</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,58 +14,92 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #eff6ff;
+            --surface: #ffffff;
+            --text: #111111;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --accent: #2563eb; /* blue-600 */
+            --accent-foreground: #ffffff;
+            --accent-50: #eff6ff;
+            --accent-700: #1d4ed8;
+            --success: #16a34a; /* green-600 */
+            --success-50: #ecfdf5;
+            --success-700: #15803d;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
-            background: #f5f5f7;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+            background: var(--bg);
             min-height: 100vh;
-            line-height: 1.47059;
-            font-size: 17px;
-            color: #1d1d1f;
+            line-height: 1.5;
+            font-size: 16px;
+            color: var(--text);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
-            max-width: 980px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            margin-top: 24px;
+            margin-bottom: 24px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 80px;
-            padding-top: 60px;
+            margin-bottom: 48px;
+            padding: 32px 0;
         }
 
         .header h1 {
-            font-size: 56px;
-            font-weight: 600;
-            letter-spacing: -0.005em;
-            margin-bottom: 16px;
-            color: #1d1d1f;
-            line-height: 1.07143;
+            font-size: 40px;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            color: var(--text);
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header h1 .material-icons {
+            font-size: 36px;
+            color: var(--accent);
         }
 
         .header p {
-            font-size: 21px;
+            font-size: 16px;
             font-weight: 400;
-            color: #6e6e73;
-            line-height: 1.28571;
+            color: var(--muted);
+            line-height: 1.6;
+            max-width: 640px;
+            margin: 0 auto;
         }
 
         .progress-bar {
-            background: #e5e5e7;
-            border-radius: 4px;
-            height: 4px;
-            margin: 60px 0;
+            background: var(--border);
+            border-radius: 6px;
+            height: 6px;
+            margin: 24px 0 16px;
             overflow: hidden;
         }
 
         .progress-fill {
-            background: #007aff;
+            background: var(--accent);
             height: 100%;
-            border-radius: 4px;
-            transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 6px;
+            transition: width 0.4s ease;
         }
 
         .step-indicator {
@@ -79,39 +115,34 @@
             gap: 8px;
             padding: 12px 24px;
             border-radius: 20px;
-            color: #86868b;
+            color: var(--muted);
             font-size: 14px;
             font-weight: 400;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: color 0.2s ease, background 0.2s ease;
             background: transparent;
         }
 
         .step.active {
-            color: #007aff;
-            background: rgba(0, 122, 255, 0.08);
+            color: var(--accent);
+            background: var(--accent-50);
         }
 
         .step.completed {
-            color: #34c759;
-            background: rgba(52, 199, 89, 0.08);
+            color: var(--muted);
+            background: transparent;
         }
 
         .card {
-            background: white;
-            border-radius: 18px;
-            padding: 48px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            margin-bottom: 32px;
-            border: 1px solid rgba(0, 0, 0, 0.04);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .card:hover {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
         }
 
         .card h2 {
-            color: #1d1d1f;
+            color: var(--text);
             margin-bottom: 24px;
             font-size: 32px;
             font-weight: 600;
@@ -123,52 +154,56 @@
         }
 
         .btn {
-            background: #007aff;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 20px;
-            font-size: 17px;
+            background: var(--accent);
+            color: var(--accent-foreground);
+            border: 1px solid var(--accent);
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: background 0.2s ease, border-color 0.2s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            min-height: 44px;
+            min-height: 40px;
+            letter-spacing: 0.2px;
         }
 
         .btn:hover {
-            background: #0056cc;
-            transform: scale(1.02);
-        }
-
-        .btn:active {
-            transform: scale(0.98);
+            background: var(--accent-700);
+            border-color: var(--accent-700);
         }
 
         .btn:disabled {
-            background: #86868b;
+            background: #d1d5db;
+            border-color: #d1d5db;
+            color: #9ca3af;
             cursor: not-allowed;
-            transform: none;
         }
 
         .btn-secondary {
-            background: #ff9500;
+            background: var(--surface);
+            color: var(--text);
+            border-color: var(--border);
         }
 
         .btn-secondary:hover {
-            background: #e6820a;
+            background: #f9fafb;
+            border-color: var(--text);
         }
 
         .btn-success {
-            background: #34c759;
+            background: var(--success);
+            color: #ffffff;
+            border-color: var(--success);
         }
 
         .btn-success:hover {
-            background: #28a745;
+            background: var(--success-700);
+            border-color: var(--success-700);
         }
 
         .conference-grid {
@@ -179,33 +214,30 @@
         }
 
         .conference-card {
-            background: white;
-            border: 1px solid #d2d2d7;
-            border-radius: 18px;
-            padding: 32px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: border-color 0.2s ease, background 0.2s ease;
             position: relative;
         }
 
         .conference-card:hover {
-            border-color: #007aff;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            transform: translateY(-2px);
+            border-color: var(--accent);
         }
 
         .conference-card.selected {
-            border-color: #007aff;
-            background: rgba(0, 122, 255, 0.02);
-            box-shadow: 0 8px 32px rgba(0, 122, 255, 0.12);
+            border-color: var(--accent);
+            background: var(--accent-50);
         }
 
         .relevance-badge {
             position: absolute;
             top: 20px;
             right: 20px;
-            background: #34c759;
-            color: white;
+            background: var(--success-50);
+            color: var(--success);
             padding: 6px 12px;
             border-radius: 12px;
             font-size: 13px;
@@ -251,14 +283,14 @@
         .conference-card h3 {
             font-size: 22px;
             font-weight: 600;
-            color: #1d1d1f;
+            color: var(--text);
             margin-bottom: 12px;
             letter-spacing: -0.003em;
             line-height: 1.18182;
         }
 
         .conference-card p {
-            color: #6e6e73;
+            color: var(--muted);
             font-size: 15px;
             line-height: 1.46667;
             margin-bottom: 16px;
@@ -278,51 +310,36 @@
         }
 
         .contact-table th {
-            background: linear-gradient(135deg, #f8f9ff, #e8efff);
+            background: #f9fafb;
             font-weight: 600;
-            color: #333;
+            color: var(--text);
         }
 
         .contact-table tr:hover {
-            background: rgba(102, 126, 234, 0.05);
+            background: #fafafa;
         }
 
-        .priority-high {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .priority-medium {
-            background: linear-gradient(135deg, #ffa726, #ff9800);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
+        .priority-high,
+        .priority-medium,
         .priority-low {
-            background: linear-gradient(135deg, #66bb6a, #4caf50);
-            color: white;
+            background: #f9fafb;
+            color: var(--text);
             padding: 4px 8px;
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 500;
+            border: 1px solid var(--border);
         }
 
         .score-bar {
-            background: #e0e0e0;
+            background: #ededed;
             height: 8px;
             border-radius: 4px;
             overflow: hidden;
         }
 
         .score-fill {
-            background: linear-gradient(90deg, #4CAF50, #45a049);
+            background: var(--accent);
             height: 100%;
             border-radius: 4px;
             transition: width 0.5s ease;
@@ -376,24 +393,17 @@
         }
 
         .stat-card {
-            background: white;
-            border-radius: 18px;
-            padding: 32px;
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 24px;
             text-align: center;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(0, 0, 0, 0.04);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .stat-card:hover {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            transform: translateY(-2px);
+            border: 1px solid var(--border);
         }
 
         .stat-number {
             font-size: 48px;
             font-weight: 600;
-            color: #007aff;
+            color: var(--text);
             margin-bottom: 8px;
             letter-spacing: -0.003em;
             line-height: 1.04167;
@@ -406,48 +416,40 @@
         }
 
         .meeting-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-        }
-
-        .meeting-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
         }
 
         .meeting-contact {
             font-weight: 600;
-            color: #333;
+            color: var(--text);
             margin-bottom: 5px;
         }
 
         .meeting-company {
-            color: #666;
+            color: var(--muted);
             margin-bottom: 10px;
         }
 
         .meeting-time {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            background: var(--accent-50);
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.85rem;
             display: inline-block;
             margin-bottom: 10px;
         }
 
         .meeting-message {
-            background: #f8f9ff;
-            padding: 15px;
-            border-radius: 10px;
-            font-style: italic;
-            color: #555;
-            border-left: 3px solid #667eea;
+            background: #fafafa;
+            padding: 12px;
+            border-radius: 8px;
+            color: #444;
+            border-left: 3px solid var(--border);
         }
 
         .hidden {
@@ -462,21 +464,21 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #1d1d1f;
-            font-size: 17px;
+            color: var(--text);
+            font-size: 16px;
         }
 
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 16px;
-            border: 1px solid #d2d2d7;
-            border-radius: 12px;
-            font-size: 17px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
             font-family: inherit;
             background: white;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
             -webkit-appearance: none;
         }
 
@@ -484,8 +486,8 @@
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #007aff;
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+            border-color: #9ca3af;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
         }
 
         .form-group input::placeholder,
@@ -495,7 +497,7 @@
 
         .loading-spinner {
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            border-top: 3px solid #333333;
             border-radius: 50%;
             width: 30px;
             height: 30px;
@@ -510,58 +512,106 @@
         }
 
         .success-message {
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(69, 160, 73, 0.1));
-            border: 1px solid #4CAF50;
-            color: #2e7d32;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            background: var(--success-50);
+            border: 1px solid var(--success);
+            color: var(--success-700);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
+        .action-bar {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: #f9fafb;
+            border-color: var(--text);
+        }
+
+        .action-btn.primary {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+        }
+
+        .action-btn.primary:hover {
+            background: var(--accent-700);
+            border-color: var(--accent-700);
+        }
+
+        .action-btn.success {
+            background: var(--success);
+            color: #ffffff;
+            border-color: var(--success);
+        }
+
+        .action-btn.success:hover {
+            background: var(--success-700);
+            border-color: var(--success-700);
+        }
+
         .research-results {
-            background: #f8f9ff;
-            border: 2px solid #667eea;
-            border-radius: 15px;
-            padding: 25px;
+            background: #fafafa;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
             margin-top: 20px;
         }
 
         .research-results h3 {
-            color: #667eea;
-            margin-bottom: 15px;
+            color: var(--text);
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .research-item {
             background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #667eea;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--border);
         }
 
         .tabs {
             display: flex;
             gap: 8px;
             margin-bottom: 32px;
-            background: #f2f2f7;
-            border-radius: 12px;
+            background: #f3f4f6;
+            border-radius: 8px;
             padding: 4px;
         }
 
         .tab {
             padding: 12px 20px;
             background: transparent;
-            color: #6e6e73;
+            color: var(--muted);
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: background 0.2s ease, color 0.2s ease;
             font-size: 15px;
             font-weight: 500;
             flex: 1;
@@ -570,8 +620,8 @@
 
         .tab.active {
             background: white;
-            color: #1d1d1f;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            color: var(--text);
+            border: 1px solid var(--border);
         }
 
         @media (max-width: 768px) {
@@ -641,8 +691,11 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>MedAhead</h1>
-            <p>AI-powered healthcare conference targeting</p>
+            <h1>
+                <span class="material-icons">groups</span>
+                Conference Buddy
+            </h1>
+            <p>Your AI-powered conference networking assistant. Discover meaningful connections and maximize your conference experience with intelligent attendee analysis and personalized meeting recommendations.</p>
         </div>
 
         <!-- Progress Bar -->
@@ -659,15 +712,12 @@
                 <i class="fas fa-calendar"></i> Conferences
             </div>
             <div class="step" id="step2">
-                <i class="fas fa-upload"></i> Upload
-            </div>
-            <div class="step" id="step3">
                 <i class="fas fa-brain"></i> Analysis
             </div>
-            <div class="step" id="step4">
+            <div class="step" id="step3">
                 <i class="fas fa-handshake"></i> Meetings
             </div>
-            <div class="step" id="step5">
+            <div class="step" id="step4">
                 <i class="fas fa-chart-line"></i> Dashboard
             </div>
         </div>
@@ -711,7 +761,7 @@
         <!-- Step 1: Conference Discovery -->
         <div class="card hidden" id="conferenceStep">
             <h2>Discover relevant conferences</h2>
-            <p style="color: #6e6e73; margin-bottom: 32px; font-size: 17px;">AI-curated conferences based on your industry and goals</p>
+            <p style="color: var(--muted); margin-bottom: 32px; font-size: 17px;">AI-curated conferences based on your industry and goals</p>
             
             <div class="conference-grid" id="conferenceGrid">
                 <!-- Conferences will be populated by JavaScript -->
@@ -724,46 +774,54 @@
             </div>
         </div>
 
-        <!-- Step 2: Upload Contacts -->
-        <div class="card hidden" id="uploadStep">
-            <h2><i class="fas fa-upload"></i> Upload Attendee List</h2>
-            <p style="color: #666; margin-bottom: 20px;">Upload a CSV file with attendee information to analyze networking opportunities</p>
-            
-            <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
-                <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #667eea; margin-bottom: 15px;"></i>
-                <h3>Drop your CSV file here or click to browse</h3>
-                <p style="color: #666;">Supported formats: CSV with columns: name, email, company, title, industry</p>
-                <input type="file" id="fileInput" accept=".csv" style="display: none;" onchange="handleFileUpload(event)">
-            </div>
-            
-            <div id="uploadStatus" class="hidden"></div>
-            
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="btn btn-secondary" onclick="simulateUpload()">
-                    <i class="fas fa-magic"></i> Use Demo Data
-                </button>
-                <button class="btn" onclick="nextStep()" id="uploadNextBtn" disabled>
-                    <i class="fas fa-arrow-right"></i> Analyze Contacts
-                </button>
-            </div>
-        </div>
 
-        <!-- Step 3: AI Analysis -->
+
+        <!-- Step 2: AI Analysis & Attendee Scraping -->
         <div class="card hidden" id="analysisStep">
-            <h2><i class="fas fa-brain"></i> AI-Powered Contact Analysis</h2>
-            <div id="analysisContent">
-                <div style="text-align: center; padding: 40px;">
-                    <div class="loading-spinner"></div>
-                    <p>Analyzing contacts and scoring networking opportunities...</p>
-                    <p style="color: #666; margin-top: 10px;">This may take a moment as we evaluate each contact's relevance.</p>
+            <h2><i class="fas fa-brain"></i> AI-Powered Attendee Analysis</h2>
+            <p style="color: var(--muted); margin-bottom: 24px;">Let our AI scrape and analyze conference attendees to find your best networking opportunities</p>
+            
+            <div class="card" style="background: #f8f9fa; border: 2px dashed var(--border); margin-bottom: 24px;">
+                <div style="text-align: center;">
+                    <span class="material-icons" style="font-size: 48px; color: var(--muted); margin-bottom: 16px;">search</span>
+                    <h3 style="color: var(--text); margin-bottom: 12px;">Scraping Conference Attendees</h3>
+                    <p style="color: var(--muted); margin-bottom: 20px;">
+                        Our AI will automatically find and analyze attendee data from:
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                        <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <span class="material-icons" style="color: var(--muted);">public</span>
+                            <div style="font-weight: 500; margin-top: 8px;">Conference Website</div>
+                        </div>
+                        <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <span class="material-icons" style="color: var(--muted);">groups</span>
+                            <div style="font-weight: 500; margin-top: 8px;">Speaker Lists</div>
+                        </div>
+                        <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <span class="material-icons" style="color: var(--muted);">business</span>
+                            <div style="font-weight: 500; margin-top: 8px;">Sponsor Directory</div>
+                        </div>
+                        <div style="background: white; padding: 16px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <span class="material-icons" style="color: var(--muted);">share</span>
+                            <div style="font-weight: 500; margin-top: 8px;">Social Media</div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="startScrapingAndAnalysis()" id="startAnalysisBtn">
+                        <span class="material-icons">rocket_launch</span>
+                        Start AI Analysis
+                    </button>
                 </div>
             </div>
+            
+            <div id="analysisContent" class="hidden">
+                <!-- Analysis results will appear here -->
+            </div>
         </div>
 
-        <!-- Step 4: Meeting Suggestions -->
+        <!-- Step 3: Meeting Suggestions -->
         <div class="card hidden" id="meetingStep">
             <h2><i class="fas fa-handshake"></i> Personalized Meeting Suggestions</h2>
-            <p style="color: #666; margin-bottom: 20px;">AI-generated meeting recommendations based on your profile and goals</p>
+            <p style="color: var(--muted); margin-bottom: 20px;">AI-generated meeting recommendations based on your profile and goals</p>
             
             <div id="meetingList">
                 <!-- Meeting suggestions will be populated by JavaScript -->
@@ -776,7 +834,7 @@
             </div>
         </div>
 
-        <!-- Step 5: Dashboard -->
+        <!-- Step 4: Dashboard -->
         <div class="card hidden" id="dashboardStep">
             <h2><i class="fas fa-chart-line"></i> Conference Targeting Dashboard</h2>
             
