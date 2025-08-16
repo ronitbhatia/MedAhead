@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAhead - Healthcare Conference Targeting Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+            line-height: 1.47059;
+            font-size: 17px;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+            padding-top: 60px;
+        }
+
+        .header h1 {
+            font-size: 56px;
+            font-weight: 600;
+            letter-spacing: -0.005em;
+            margin-bottom: 16px;
+            color: #1d1d1f;
+            line-height: 1.07143;
+        }
+
+        .header p {
+            font-size: 21px;
+            font-weight: 400;
+            color: #6e6e73;
+            line-height: 1.28571;
+        }
+
+        .progress-bar {
+            background: #e5e5e7;
+            border-radius: 4px;
+            height: 4px;
+            margin: 60px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #007aff;
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 20px;
+            color: #86868b;
+            font-size: 14px;
+            font-weight: 400;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: transparent;
+        }
+
+        .step.active {
+            color: #007aff;
+            background: rgba(0, 122, 255, 0.08);
+        }
+
+        .step.completed {
+            color: #34c759;
+            background: rgba(52, 199, 89, 0.08);
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 48px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            margin-bottom: 32px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            color: #1d1d1f;
+            margin-bottom: 24px;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.003em;
+            line-height: 1.125;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 44px;
+        }
+
+        .btn:hover {
+            background: #0056cc;
+            transform: scale(1.02);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:disabled {
+            background: #86868b;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #ff9500;
+        }
+
+        .btn-secondary:hover {
+            background: #e6820a;
+        }
+
+        .btn-success {
+            background: #34c759;
+        }
+
+        .btn-success:hover {
+            background: #28a745;
+        }
+
+        .conference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .conference-card {
+            background: white;
+            border: 1px solid #d2d2d7;
+            border-radius: 18px;
+            padding: 32px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+
+        .conference-card:hover {
+            border-color: #007aff;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .conference-card.selected {
+            border-color: #007aff;
+            background: rgba(0, 122, 255, 0.02);
+            box-shadow: 0 8px 32px rgba(0, 122, 255, 0.12);
+        }
+
+        .relevance-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #34c759;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: -0.003em;
+        }
+
+        .conference-date {
+            color: #6e6e73;
+            font-size: 15px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .conference-location {
+            color: #86868b;
+            font-size: 15px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .conference-stats {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #6e6e73;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .conference-card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+            letter-spacing: -0.003em;
+            line-height: 1.18182;
+        }
+
+        .conference-card p {
+            color: #6e6e73;
+            font-size: 15px;
+            line-height: 1.46667;
+            margin-bottom: 16px;
+        }
+
+        .contact-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .contact-table th,
+        .contact-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .contact-table th {
+            background: linear-gradient(135deg, #f8f9ff, #e8efff);
+            font-weight: 600;
+            color: #333;
+        }
+
+        .contact-table tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .priority-high {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .priority-medium {
+            background: linear-gradient(135deg, #ffa726, #ff9800);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .priority-low {
+            background: linear-gradient(135deg, #66bb6a, #4caf50);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .score-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .upload-area {
+            border: 2px dashed #d2d2d7;
+            border-radius: 18px;
+            padding: 60px 40px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            background: #fbfbfd;
+        }
+
+        .upload-area:hover {
+            border-color: #007aff;
+            background: rgba(0, 122, 255, 0.02);
+        }
+
+        .upload-area.dragover {
+            border-color: #007aff;
+            background: rgba(0, 122, 255, 0.05);
+            transform: scale(1.01);
+        }
+
+        .upload-area h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+            letter-spacing: -0.003em;
+        }
+
+        .upload-area p {
+            color: #6e6e73;
+            font-size: 15px;
+            line-height: 1.46667;
+        }
+
+        .upload-area i {
+            color: #007aff;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 18px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 600;
+            color: #007aff;
+            margin-bottom: 8px;
+            letter-spacing: -0.003em;
+            line-height: 1.04167;
+        }
+
+        .stat-label {
+            color: #6e6e73;
+            font-weight: 400;
+            font-size: 15px;
+        }
+
+        .meeting-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .meeting-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .meeting-contact {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .meeting-company {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .meeting-time {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .meeting-message {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 10px;
+            font-style: italic;
+            color: #555;
+            border-left: 3px solid #667eea;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #1d1d1f;
+            font-size: 17px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #d2d2d7;
+            border-radius: 12px;
+            font-size: 17px;
+            font-family: inherit;
+            background: white;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            -webkit-appearance: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #86868b;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(69, 160, 73, 0.1));
+            border: 1px solid #4CAF50;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .research-results {
+            background: #f8f9ff;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .research-results h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .research-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            background: #f2f2f7;
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: transparent;
+            color: #6e6e73;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-size: 15px;
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tab.active {
+            background: white;
+            color: #1d1d1f;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 16px;
+            }
+            
+            .header {
+                padding-top: 40px;
+                margin-bottom: 60px;
+            }
+            
+            .header h1 {
+                font-size: 40px;
+            }
+            
+            .header p {
+                font-size: 19px;
+            }
+            
+            .card {
+                padding: 32px 24px;
+            }
+            
+            .card h2 {
+                font-size: 28px;
+            }
+            
+            .conference-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .conference-card {
+                padding: 24px;
+            }
+            
+            .step-indicator {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            
+            .stat-card {
+                padding: 24px;
+            }
+            
+            .stat-number {
+                font-size: 36px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .tab {
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MedAhead</h1>
+            <p>AI-powered healthcare conference targeting</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active" id="step0">
+                <i class="fas fa-user"></i> Profile
+            </div>
+            <div class="step" id="step1">
+                <i class="fas fa-calendar"></i> Conferences
+            </div>
+            <div class="step" id="step2">
+                <i class="fas fa-upload"></i> Upload
+            </div>
+            <div class="step" id="step3">
+                <i class="fas fa-brain"></i> Analysis
+            </div>
+            <div class="step" id="step4">
+                <i class="fas fa-handshake"></i> Meetings
+            </div>
+            <div class="step" id="step5">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </div>
+        </div>
+
+        <!-- Step 0: User Profile -->
+        <div class="card" id="profileStep">
+            <h2>Set up your profile</h2>
+            <div class="form-group">
+                <label for="userName">Full Name</label>
+                <input type="text" id="userName" placeholder="Enter your full name" value="Dr. Sarah Johnson">
+            </div>
+            <div class="form-group">
+                <label for="userEmail">Email Address</label>
+                <input type="email" id="userEmail" placeholder="Enter your email" value="sarah.johnson@healthcorp.com">
+            </div>
+            <div class="form-group">
+                <label for="userCompany">Company/Organization</label>
+                <input type="text" id="userCompany" placeholder="Enter your company" value="HealthCorp Solutions">
+            </div>
+            <div class="form-group">
+                <label for="userIndustry">Industry Focus</label>
+                <select id="userIndustry">
+                    <option value="">Select your industry</option>
+                    <option value="Healthcare Technology" selected>Healthcare Technology</option>
+                    <option value="Digital Health">Digital Health</option>
+                    <option value="Pharmaceuticals">Pharmaceuticals</option>
+                    <option value="Medical Devices">Medical Devices</option>
+                    <option value="Hospital Administration">Hospital Administration</option>
+                    <option value="Biotech">Biotech</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="userGoals">Networking Goals</label>
+                <textarea id="userGoals" rows="3" placeholder="What do you hope to achieve at conferences?">Looking to connect with healthcare technology leaders, explore AI solutions for patient care, and discuss digital transformation initiatives.</textarea>
+            </div>
+            <button class="btn" onclick="nextStep()">
+                Continue to Conferences
+            </button>
+        </div>
+
+        <!-- Step 1: Conference Discovery -->
+        <div class="card hidden" id="conferenceStep">
+            <h2>Discover relevant conferences</h2>
+            <p style="color: #6e6e73; margin-bottom: 32px; font-size: 17px;">AI-curated conferences based on your industry and goals</p>
+            
+            <div class="conference-grid" id="conferenceGrid">
+                <!-- Conferences will be populated by JavaScript -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="nextStep()" id="selectConferenceBtn" disabled>
+                    <i class="fas fa-arrow-right"></i> Continue with Selected Conference
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Upload Contacts -->
+        <div class="card hidden" id="uploadStep">
+            <h2><i class="fas fa-upload"></i> Upload Attendee List</h2>
+            <p style="color: #666; margin-bottom: 20px;">Upload a CSV file with attendee information to analyze networking opportunities</p>
+            
+            <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3>Drop your CSV file here or click to browse</h3>
+                <p style="color: #666;">Supported formats: CSV with columns: name, email, company, title, industry</p>
+                <input type="file" id="fileInput" accept=".csv" style="display: none;" onchange="handleFileUpload(event)">
+            </div>
+            
+            <div id="uploadStatus" class="hidden"></div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="simulateUpload()">
+                    <i class="fas fa-magic"></i> Use Demo Data
+                </button>
+                <button class="btn" onclick="nextStep()" id="uploadNextBtn" disabled>
+                    <i class="fas fa-arrow-right"></i> Analyze Contacts
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: AI Analysis -->
+        <div class="card hidden" id="analysisStep">
+            <h2><i class="fas fa-brain"></i> AI-Powered Contact Analysis</h2>
+            <div id="analysisContent">
+                <div style="text-align: center; padding: 40px;">
+                    <div class="loading-spinner"></div>
+                    <p>Analyzing contacts and scoring networking opportunities...</p>
+                    <p style="color: #666; margin-top: 10px;">This may take a moment as we evaluate each contact's relevance.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Meeting Suggestions -->
+        <div class="card hidden" id="meetingStep">
+            <h2><i class="fas fa-handshake"></i> Personalized Meeting Suggestions</h2>
+            <p style="color: #666; margin-bottom: 20px;">AI-generated meeting recommendations based on your profile and goals</p>
+            
+            <div id="meetingList">
+                <!-- Meeting suggestions will be populated by JavaScript -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-success" onclick="nextStep()">
+                    <i class="fas fa-chart-line"></i> View Dashboard
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 5: Dashboard -->
+        <div class="card hidden" id="dashboardStep">
+            <h2><i class="fas fa-chart-line"></i> Conference Targeting Dashboard</h2>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalContacts">0</div>
+                    <div class="stat-label">Total Contacts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="highPriority">0</div>
+                    <div class="stat-label">High Priority</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="meetingSuggestions">0</div>
+                    <div class="stat-label">Meeting Suggestions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgScore">0%</div>
+                    <div class="stat-label">Avg. Relevance Score</div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('contacts')">Top Contacts</button>
+                <button class="tab" onclick="showTab('meetings')">Meeting Schedule</button>
+                <button class="tab" onclick="showTab('research')">AI Research</button>
+            </div>
+
+            <div id="contactsTab">
+                <h3 style="margin-bottom: 15px;">Top Networking Contacts</h3>
+                <table class="contact-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Company</th>
+                            <th>Title</th>
+                            <th>Priority</th>
+                            <th>Relevance Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contactTableBody">
+                        <!-- Contacts will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="meetingsTab" class="hidden">
+                <h3 style="margin-bottom: 15px;">Suggested Meeting Schedule</h3>
+                <div id="dashboardMeetings">
+                    <!-- Meetings will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div id="researchTab" class="hidden">
+                <div class="research-results">
+                    <h3><i class="fas fa-search"></i> AI Conference Research</h3>
+                    <div class="research-item">
+                        <h4>HIMSS 2025 - Key Insights</h4>
+                        <p><strong>Focus Areas:</strong> AI in Healthcare, Digital Transformation, Interoperability</p>
+                        <p><strong>Key Attendees:</strong> CTOs, CMIOs, Health IT Directors from major health systems</p>
+                        <p><strong>Networking Tip:</strong> Focus on the Innovation Showcase and AI Summit sessions</p>
+                    </div>
+                    <div class="research-item">
+                        <h4>Trending Topics 2025</h4>
+                        <p><strong>Hot Topics:</strong> Generative AI in Clinical Workflows, Cybersecurity, Remote Patient Monitoring</p>
+                        <p><strong>Investment Focus:</strong> AI-powered diagnostics, population health platforms, clinical decision support</p>
+                    </div>
+                    <div class="research-item">
+                        <h4>Networking Strategy</h4>
+                        <p><strong>Best Times:</strong> Coffee breaks (8:30-9:00 AM), Lunch sessions, Evening receptions</p>
+                        <p><strong>High-Value Events:</strong> Executive roundtables, Innovation showcases, Startup pitches</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" onclick="resetDemo()">
+                    <i class="fas fa-redo"></i> Start New Demo
+                </button>
+                <button class="btn btn-success" onclick="exportResults()">
+                    <i class="fas fa-download"></i> Export Results
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
